@@ -1,8 +1,10 @@
 <server description="Engine Hello World">
     <featureManager>
+        <feature>jndi-1.0</feature>
         <feature>jaxrs-2.1</feature>
         <feature>jsonp-1.1</feature>
         <feature>cdi-2.0</feature>
+        <feature>jdbc-4.2</feature>
     </featureManager>
 
     <variable name="default.http.port" defaultValue="9080"/>
@@ -12,4 +14,15 @@
 
     <httpEndpoint host="*" httpPort="${default.http.port}"
         httpsPort="${default.https.port}" id="defaultHttpEndpoint"/>
+
+    <library id="jdbcLib">
+        <fileset dir="jdbc" includes="*.jar"/>
+    </library>
+    <jdbcDriver id="JdbcDriver" libraryRef="jdbcLib"/>
+    <dataSource id="DefaultDataSource" jndiName="jdbc/myDB" jdbcDriverRef="JdbcDriver">
+        <properties serverName="localhost" portNumber="3306"
+                    databaseName="test"
+                    user="test"
+                    password="test"/>
+    </dataSource>
 </server>
